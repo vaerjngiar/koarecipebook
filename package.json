@@ -1,0 +1,25 @@
+{
+  "name": "koarecipebook",
+  "version": "1.0.0",
+  "description": "recipe book with koa, node.js & PostgreSQL",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "koajs",
+    "nodejs",
+    "postgresql"
+  ],
+  "author": "olegerius",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.4.1",
+    "koa-body": "^2.5.0",
+    "koa-logger": "^3.1.0",
+    "koa-router": "^7.3.0",
+    "koa-static": "^4.0.1",
+    "koa-views": "^6.1.2",
+    "swig": "^1.4.2"
+  }
+}
