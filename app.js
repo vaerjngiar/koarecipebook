@@ -18,6 +18,8 @@ const config = {
     password: '12345',
     port: 5432,
 }
+const { Pool } = require('pg');
+const pool = new Pool(config);
 
 
 // middleware
@@ -32,26 +34,68 @@ app.use(koaBody());
 
 router.get('/', list)
     .post('/add', create)
-    .delete('/delete/:id', exclude)
+    .del('/delete/:id', remove)
     .post('/edit', edit);
 
 app.use(router.routes());
 
 //function
 async function list (ctx) {
-    await ctx.render('index', {})
+    let result;
+    const client = await pool.connect();
+    try {
+        result = await client.query('SELECT * FROM recipe as recipes');
+        //console.log(result.rows[0]);
+
+    } finally {
+        client.release();
+    }
+
+    await ctx.render('index', {recipes: result.rows});
 }
 
 async function create(ctx) {
-    await ctx.render('index', {})
+
+    const recipe = ctx.request.body;
+    const client = await pool.connect();
+    try {
+        await client.query('INSERT INTO recipe(name, ingredients, directions) VALUES ($1, $2, $3)',
+            [recipe.name, recipe.ingredients, recipe.directions]);
+
+    } finally {
+        client.release();
+    }
+
+    await ctx.redirect('/');
 }
 
-async function exclude(ctx) {
-    await ctx.render('index', {})
+async function remove(ctx) {
+
+    const id = ctx.params.id;
+    const client = await pool.connect();
+    try {
+        await client.query('DELETE FROM recipe WHERE id = $1',[id]);
+
+    } finally {
+        client.release();
+    }
+
+    ctx.body = 'ok';
 }
 
 async function edit(ctx) {
-    await ctx.render('index', {})
+
+    const recipe = ctx.request.body;
+    const client = await pool.connect();
+    try {
+        await client.query('UPDATE recipe SET name=$1, ingredients=$2, directions=$3 WHERE id=$4',
+            [recipe.name, recipe.ingredients, recipe.directions, recipe.id]);
+
+    } finally {
+        client.release();
+    }
+
+    await ctx.redirect('/');
 }
 
 //server

@@ -6,33 +6,33 @@
 
 
 <br>
-{% for recipe in recepies %}
+{% for recipe in recipes %}
 <div class="well">
-    <h4>{recipe.name}
+    <h4>{{recipe.name}}
         <button class="btn btn-default pull-right"
-                data-toggle="collapse" href="#recipe_{id}" aria-expanded="false" aria-controls="#recipe_{id}">
+                data-toggle="collapse" href="#recipe_{{recipe.id}}" aria-expanded="false" aria-controls="#recipe_{{recipe.id}}">
             <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
         </button>
     </h4>
 
-    <div class="collapse" id="recipe_{id}">
+    <div class="collapse" id="recipe_{{recipe.id}}">
         <br>
         <br>
-        <p><strong>Ingredients: </strong> {recipe.ingredients}</p>
-        <p><strong>Directions: </strong> {recipe.directions}</p>
+        <p><strong>Ingredients: </strong> {{recipe.ingredients}}</p>
+        <p><strong>Directions: </strong> {{recipe.directions}}</p>
         <br>
         <hr>
         <button class="btn btn-default edit-recipe"
                 data-toggle="modal"
                 data-target="#editFormModal"
-                data-id="{id}"
-                data-name="{name}"
-                data-ingredients="{ingredients}"
-                data-directions="{directions}">
+                data-id="{{recipe.id}}"
+                data-name="{{recipe.name}}"
+                data-ingredients="{{recipe.ingredients}}"
+                data-directions="{{recipe.directions}}">
             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
         </button>
 
-        <button class="btn btn-danger delete-recipe" data-id="{id}">
+        <button class="btn btn-danger delete-recipe" data-id="{{recipe.id}}">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
     </div>
